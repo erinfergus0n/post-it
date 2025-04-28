@@ -4,16 +4,16 @@
 
   <head>
     <title>Add Note</title>
+    <link rel="stylesheet" href="styles.css">
   </head>
 
   <body>
 
-    <h1>Add a Note</h1>
+    <h1>Post It Notes</h1>
 
     <input id="noteInput" placeholder="Type your note..." />
     <button onclick="addNote()">Add</button>
 
-    <h2>Existing Notes</h2>
     <div id="notesDiv">Loading...</div>
 
     <script>
@@ -60,7 +60,7 @@
 
               const btn = document.createElement('button');
               btn.textContent = 'Delete';
-              btn.style.marginLeft = '10px';
+              btn.classList.add('delete-btn')
               btn.onclick = () => deleteNote(note._id);
 
               p.appendChild(span);
