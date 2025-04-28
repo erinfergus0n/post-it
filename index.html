@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <title>Add Note</title>
+  </head>
+
+  <body>
+
+    <h1>Add a Note</h1>
+
+    <input id="noteInput" placeholder="Type your note..." />
+    <button onclick="addNote()">Add</button>
+
+    <h2>Existing Notes</h2>
+    <div id="notesDiv">Loading...</div>
+
+    <script>
+
+      function addNote() {
+        const content = document.getElementById('noteInput').value;
+        if (!content) return alert("Please type something!");
+
+        fetch('/api/notes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content })
+        }).then(() => {
+          document.getElementById('noteInput').value = '';
+          loadNotes();
+        }).catch(err => {
+          alert("Error adding note");
+          console.error(err);
+        });
+      }
+
+      function deleteNote(id) {
+        fetch (`/api/notes/${id}`, { method: 'DELETE' })
+          .then(() => loadNotes())
+          .catch(err => console.error(err));
+      }
+
+      function loadNotes() {
+        fetch('/api/notes')
+          .then(res => res.json())
+          .then(data => {
+            const notesDiv = document.getElementById('notesDiv');
+            if (data.length === 0) {
+              notesDiv.innerHTML = "<p>No notes yet.</p>";
+              return;
+            }
+
+            notesDiv.innerHTML = "";
+            data.forEach(note => {
+              const p = document.createElement('p');
+
+              const span = document.createElement('span')
+              span.textContent = note.content;
+
+              const btn = document.createElement('button');
+              btn.textContent = 'Delete';
+              btn.style.marginLeft = '10px';
+              btn.onclick = () => deleteNote(note._id);
+
+              p.appendChild(span);
+              p.appendChild(btn);
+              notesDiv.appendChild(p)
+            });
+          })
+          .catch(err => {
+            document.getElementById('notesDiv').innerHTML = "Error loading notes";
+            console.error(err);
+          });
+      }
+      loadNotes();
+
+    </script>
+
+  </body>
+  
+</html>
