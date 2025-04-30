@@ -78,3 +78,23 @@ button:hover {
   .delete-btn:hover {
     background-color:pink;
 }
+
+#HodgehegWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+#HodgehegImg {
+  width: 150px;
+  max-width: 90%;
+  margin-bottom: -20px;
+}
+
+.noteBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -15px;
+}
